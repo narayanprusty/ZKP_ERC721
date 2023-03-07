@@ -14,12 +14,6 @@ npx hardhat run scripts/deploy.ts
 
 ## Circom Developer Command
 
-### Compile Circuit
-
-```
-circom ./circuits/poseidon_hasher.circom --wasm --r1cs -o ./circuits/build
-```
-
 ### Generating PTAU
 
 ```
@@ -28,13 +22,31 @@ npx snarkjs powersoftau contribute ./PTAU/pot12_0000.ptau ./PTAU/pot12_0001.ptau
 npx snarkjs powersoftau prepare phase2 ./PTAU/pot12_0001.ptau ./PTAU/pot12_final.ptau -v
 ```
 
+### Compile Circuit
+
+```
+circom ./circuits/poseidon_hasher.circom --wasm --r1cs -o ./circuits/build
+```
+
+### Generate zKey
+
+```
+npx snarkjs groth16 setup ./circuits/build/poseidon_hasher.r1cs ./PTAU/pot12_final.ptau ./keys/poseidon_hasher.zkey
+```
+
+### Generate verification key
+
+```
+npx snarkjs zkey export verificationkey ./keys/poseidon_hasher.zkey ./keys/poseidon_hasher_verification_key.json
+```
+
+### Generate smart contract to verify proof
+
+```
+npx snarkjs zkey export solidityverifier ./keys/poseidon_hasher.zkey ./contracts/verifier.sol
+```
+
 ## Circom User Commands
-
-### Generate zKey for user
-
-```
-npx snarkjs groth16 setup ./circuits/build/poseidon_hasher.r1cs ./PTAU/pot12_final.ptau ./keys/user_0000.zkey
-```
 
 ### User generates proof
 
@@ -42,14 +54,16 @@ npx snarkjs groth16 setup ./circuits/build/poseidon_hasher.r1cs ./PTAU/pot12_fin
 npx hardhat run ./scripts/generate_proof.ts
 ```
 
-### Generate user's verification key
-
-```
-npx snarkjs zkey export verificationkey ./keys/user_0000.zkey ./keys/user_0000_verification_key.json
-```
-
-### Verify proof
+### Verify proof in JS
 
 ```
 npx hardhat run ./scripts/verify_proof.ts
+```
+
+### Export proof for verification and verify
+
+```
+npx snarkjs zkey export soliditycalldata ./proofs/publicSignals.json ./proofs/proof.json
+
+npx hardhat run ./scripts/verify_proof_solidity.ts
 ```
