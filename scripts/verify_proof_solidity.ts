@@ -35,6 +35,8 @@ async function main() {
   )
 
   console.log(result)
+
+  process.exit()
 }
 
 main()
