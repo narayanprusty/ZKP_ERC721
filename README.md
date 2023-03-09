@@ -1,16 +1,6 @@
-# Sample Hardhat Project
+# ZKP ERC721
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
-
-Try running some of the following tasks:
-
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-```
+This repo is an example of zkp based ERC721. In the smart contract we hide the ID and owner of the tokens minted.  
 
 ## Circom Developer Command
 
