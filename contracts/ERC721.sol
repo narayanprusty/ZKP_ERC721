@@ -1,6 +1,7 @@
-pragma solidity ^0.8.18;
+pragma solidity ^0.6.11;
+pragma experimental ABIEncoderV2;
 
-import "./Verifier.sol";
+import "./Verifier/Mint/Verifier.sol";
 
 contract ERC721 is Verifier {
   address owner;
@@ -8,11 +9,11 @@ contract ERC721 is Verifier {
   // token id hash => owner mapping
   mapping (uint => address) public tokens;
 
-  constructor() {
+  constructor() public {
     owner = msg.sender;
   }
 
-  struct VerifParameters {
+  struct MintVerifyParameters {
     uint[2] a;
     uint[2][2] b;
     uint[2] c;
@@ -20,7 +21,7 @@ contract ERC721 is Verifier {
   }
 
   function mint(
-    VerifParameters memory proof, uint tokenHash, address to
+    MintVerifyParameters memory proof, uint tokenHash, address to
   ) external {
     require(msg.sender == owner, "owner can only mint tokens");
     

@@ -25,55 +25,31 @@ npx snarkjs powersoftau prepare phase2 ./PTAU/pot12_0001.ptau ./PTAU/pot12_final
 ### Compile Circuit
 
 ```
-circom ./circuits/poseidon_hasher.circom --wasm --r1cs -o ./circuits/build
-
 circom ./circuits/mint.circom --wasm --r1cs -o ./circuits/build
 ```
 
 ### Generate zKey
 
 ```
-npx snarkjs groth16 setup ./circuits/build/poseidon_hasher.r1cs ./PTAU/pot12_final.ptau ./keys/poseidon_hasher.zkey
-
 npx snarkjs groth16 setup ./circuits/build/mint.r1cs ./PTAU/pot12_final.ptau ./keys/mint.zkey
 ```
 
 ### Generate verification key
 
 ```
-npx snarkjs zkey export verificationkey ./keys/poseidon_hasher.zkey ./keys/poseidon_hasher_verification_key.json
-
 npx snarkjs zkey export verificationkey ./keys/mint.zkey ./keys/mint_verification_key.json
 ```
 
 ### Generate smart contract to verify proof
 
 ```
-npx snarkjs zkey export solidityverifier ./keys/poseidon_hasher.zkey ./contracts/verifier.sol
-
-npx snarkjs zkey export solidityverifier ./keys/mint.zkey ./contracts/Verifier.sol
+npx snarkjs zkey export solidityverifier ./keys/mint.zkey ./contracts/Verifier/Mint/Verifier.sol
 ```
 
 ## Circom User Commands
 
-### User generates proof
+### Test mint and transfer
 
 ```
-npx hardhat run ./scripts/generate_proof.ts
-```
-
-### Verify proof in JS
-
-```
-npx hardhat run ./scripts/verify_proof.ts
-```
-
-### Export proof for verification and verify
-
-```
-npx hardhat run ./scripts/verify_proof_solidity.ts
-```
-
-```
-npx hardhat run ./scripts/user_flow.ts
+npx hardhat run ./scripts/mint_and_transfer.ts
 ```
