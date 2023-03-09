@@ -3,9 +3,9 @@ const fs = require('fs');
 
 async function main() {
   const { proof, publicSignals } = await snarkjs.groth16.fullProve(
-    { in: 20 }, 
-    "./circuits/build/poseidon_hasher_js/poseidon_hasher.wasm", 
-    "./keys/poseidon_hasher.zkey");
+    { tokenId: 10 }, 
+    "./circuits/build/mint_js/mint.wasm", 
+    "./keys/mint.zkey");
 
   fs.writeFileSync('./proofs/publicSignals.json', JSON.stringify(publicSignals), 'utf8', () => {});
   fs.writeFileSync('./proofs/proof.json', JSON.stringify(proof), 'utf8', () => {});
