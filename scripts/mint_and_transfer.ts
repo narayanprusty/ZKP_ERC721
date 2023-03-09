@@ -91,7 +91,6 @@ async function main() {
   
   const [,user1, user2] = await ethers.getSigners()
 
-  //1. Mint token id 1
   const mintSalt = "17254799956404971811039702150918140282394663883969466224119104286103122128472"
   const { proof: mintProof, publicSignals: mintPublicSignals } = await snarkjs.groth16.fullProve(
     { tokenId: 1, salt: mintSalt }, 
