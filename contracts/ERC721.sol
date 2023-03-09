@@ -110,7 +110,7 @@ contract ERC721 {
       revert("invalid proof");
     }
 
-    if (senderProof.input[0] == receiverProof.input[0]) {
+    if (senderProof.input[0] != receiverProof.input[0]) {
       revert("invalid token transfer");
     }
 
